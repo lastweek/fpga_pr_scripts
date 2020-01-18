@@ -46,3 +46,6 @@ Infrastructure:
 - We define all the modules including the static module and PR modules in `run_vivado.tcl`.
   Each module can have multiple sources such as Verilog, BD scripts and so on.
 - This building infrastructure defines the `module` concept, and associate a lot properties with it.
+
+## Misc
+![image](assets/screenshot-script.png)
