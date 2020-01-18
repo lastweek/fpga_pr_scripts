@@ -25,3 +25,9 @@ Check the Makefile and bash script first.
 You can do `make`, `make clean`.
 
 I have tested with 2019.1, should work on other versions.
+
+## Commands
+
+`open_checkpoint ./generated_checkpoint/*.dcp`
+`read_checkpoint ./generated_checkpoint/*.dcp`
+
