@@ -5,10 +5,10 @@ Jan 17, 2020  Yizhou Shan <syzwhat@gmail.com>
 The scripts are adopted from Xilinx open-source scripts.
 I made few changes for my own research needs.
 The scripts will make the PR flow super easy.
-It can also be used for non-PR flow.
 
-Everything is script-based here, which is useful if you are using remote servers.
-It is also faster. However, you can always open GUI within vivado shell.
+Everything is script-based here, i.e., Vivado non-Project mode, which is useful if you are using remote servers.
+You can always open GUI within vivado shell, but it is different from Vivado Project mode.
+If you want to use Project mode, you can checkout the `write_project_tcl` command.
 
 A nice thing is that all vivado commands will be saved to log files,
 thus you can learn and mimic the general build flow.
@@ -20,14 +20,29 @@ Happy hacking!
 
 ## Run
 
-Check the Makefile and bash script first.
-
 You can do `make`, `make clean`.
 
-I have tested with 2019.1, should work on other versions.
+The original code is targeting VCU118 and Vivado 2019.1.
+You can change board information within `run_vivado.tcl`.
+Vivado versions do not matter too much.
 
-## Commands
+## Tips
 
-`open_checkpoint ./generated_checkpoint/*.dcp`
-`read_checkpoint ./generated_checkpoint/*.dcp`
+Generated files:
 
+1. All Synthesize results and checkpoint are in `generated_synth`.
+2. All Implementation results go into `generated_implement`.
+3. Some routed checkpoint files go into `generated_checkpoint`.
+
+Commands:
+
+- `open_checkpoint ./generated_synth/static/top_synth.dcp`
+- `open_checkpoint ./generated_checkpoint/*.dcp`
+- `read_checkpoint ./generated_checkpoint/*.dcp`
+- Check `command.log` files
+
+Infrastructure:
+
+- We define all the modules including the static module and PR modules in `run_vivado.tcl`.
+  Each module can have multiple sources such as Verilog, BD scripts and so on.
+- This building infrastructure defines the `module` concept, and associate a lot properties with it.

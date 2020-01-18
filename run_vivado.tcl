@@ -8,8 +8,8 @@ set module_prefix	"[lindex $argv 1]"
 set global_ip_repo	"[lindex $argv 2]"
 
 set run.topSynth	1 ;#synthesize static
-set run.rmSynth		0 ;#synthesize RM variants
-set run.prImpl		0 ;#implement each static + RM configuration
+set run.rmSynth		1 ;#synthesize RM variants
+set run.prImpl		1 ;#implement each static + RM configuration
 set run.prVerify	0 ;#verify RMs are compatible with static
 set run.writeBitstream	0 ;#generate full and partial bitstreams
 
@@ -29,17 +29,7 @@ while {$i < $nr_generated_hook} {
 	incr i
 }
 
-# RM Configurations (Valid combinations of RM variants)
-# 1. Define initial configuration: rm_config(initial)
-# 2. Define additional configurations: rm_config(xyz)
-#set module1_variant1 "shift_right"
-#set module2_variant1 "count_up"
-#set rm_config(initial)   "$rp1 $module1_variant1 $rp2 $module2_variant1"
-
-#set module1_variant2 "shift_left"
-#set module2_variant2 "count_down"
-#set rm_config(reconfig1) "$rp1 $module1_variant2 $rp2 $module2_variant2"
-
+# Input Directories
 set srcDir	"."
 set rtlDir	"$srcDir/src"
 set xdcDir	"$srcDir/src/xdc"
@@ -54,6 +44,7 @@ set dcpDir	"./generated_checkpoint"
 set bitDir	"./generated_bitstreams"
 set rm_dir	"./generated_modules"
 
+# Source build scripts
 source $tclDir/synth.tcl
 source $tclDir/impl.tcl
 source $tclDir/pr_utils.tcl
@@ -61,6 +52,7 @@ source $tclDir/log_utils.tcl
 source $tclDir/hd_utils.tcl
 source $tclDir/design_utils.tcl
 
+# Board selection
 switch $xboard {
 	vcu108 {
 		set device       "xcvu095"
@@ -89,6 +81,7 @@ set dcpLevel     1
 
 #
 # This is the top-level static base.
+# add_module is an new function defined by this infrastructure
 #
 set top "top"
 set static "static"
@@ -96,7 +89,7 @@ add_module $static
 set_attribute module $static moduleName	$top
 set_attribute module $static top_level	1
 set_attribute module $static vlog	[list [glob $rtlDir/$top/*.v]]
-#set_attribute module $static bd		[list [glob $rtlDir/$top/bd/*.tcl]]
+set_attribute module $static bd		[list [glob $rtlDir/$top/bd/*.tcl]]
 set_attribute module $static synth	${run.topSynth}
 set_attribute module $static ipRepo	${global_ip_repo}
 
@@ -158,6 +151,8 @@ foreach cfg_name [array names rm_config] {
 	#set_attribute impl $config bitstream_settings [list <options_go_here>]
 }
 
+#
+# Final script to start the build sequence
+#
 source $tclDir/run.tcl
-
-#exit
+exit

@@ -82,6 +82,13 @@ proc add_bd { files } {
 		if {[string length file] > 0} {
 			if {[file exists $file]} {
 				if {[regexp {.*\.tcl} $file]} {
+				   
+				   #
+				   # It's a bit tricky.
+				   # We are passing the argv down to bd tcl file
+				   #
+				   # Because source cannot have argvs.
+				   #
 				   set argv "$resultDir/bd/"
 				   source $file
 				   puts "$design_name"

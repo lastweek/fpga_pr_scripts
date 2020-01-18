@@ -2,4 +2,7 @@
 !.gitignore
 
 *.log
+*.jou
 generated_*
+
+hd_visual/

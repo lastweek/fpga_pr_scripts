@@ -2,15 +2,12 @@
 # Copyright (c) 2019-2020 Yizhou Shan. All rights reserved.
 #
 
-# TODO: we should also autogenerate the top.v file
-# so that the pr instaces inside match the RP regions we want to create.
-# Ultimately, its top.v decide!
-NR_GENERATED_HOOKS=4
+NR_GENERATED_HOOKS = 4
 
-GENERATED_MODULE_NAME=generated_rp_module
-LOG=generated_vivado_log/vivado.log
-JOURNAL=generated_vivado_log/vivado.journal
-IP_REPO=generated_ip
+GENERATED_MODULE_NAME = generated_rp_module
+LOG = generated_vivado_log/vivado.log
+JOURNAL = generated_vivado_log/vivado.journal
+IP_REPO = generated_ip
 
 all:
 	mkdir -p generated_modules
