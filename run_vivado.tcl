@@ -8,7 +8,7 @@ set module_prefix	"[lindex $argv 1]"
 set global_ip_repo	"[lindex $argv 2]"
 
 set run.topSynth	1 ;#synthesize static
-set run.rmSynth		1 ;#synthesize RM variants
+set run.rmSynth		0 ;#synthesize RM variants
 set run.prImpl		0 ;#implement each static + RM configuration
 set run.prVerify	0 ;#verify RMs are compatible with static
 set run.writeBitstream	0 ;#generate full and partial bitstreams
@@ -96,7 +96,7 @@ add_module $static
 set_attribute module $static moduleName	$top
 set_attribute module $static top_level	1
 set_attribute module $static vlog	[list [glob $rtlDir/$top/*.v]]
-set_attribute module $static bd		[list [glob $rtlDir/$top/bd/*.tcl]]
+#set_attribute module $static bd		[list [glob $rtlDir/$top/bd/*.tcl]]
 set_attribute module $static synth	${run.topSynth}
 set_attribute module $static ipRepo	${global_ip_repo}
 

@@ -24,7 +24,6 @@ proc cr_bd_config_mb { parentCell dst_dir design_name} {
   xilinx.com:ip:smartconnect:1.0\
   xilinx.com:ip:axi_uartlite:2.0\
   xilinx.com:ip:ddr4:2.2\
-  Wuklab:hls:dummy_net_dram:1.0\
   xilinx.com:ip:ila:6.2\
   xilinx.com:ip:mdm:3.2\
   xilinx.com:ip:microblaze:11.0\
@@ -241,9 +240,6 @@ proc create_hier_cell_microblaze_0_local_memory { parentCell nameHier } {
    CONFIG.RESET_BOARD_INTERFACE {reset} \
  ] $ddr4_0
 
-  # Create instance: dummy_net_dram_0, and set properties
-  set dummy_net_dram_0 [ create_bd_cell -type ip -vlnv Wuklab:hls:dummy_net_dram:1.0 dummy_net_dram_0 ]
-
   # Create instance: ila_0, and set properties
   set ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0 ]
   set_property -dict [ list \
@@ -315,7 +311,6 @@ proc create_hier_cell_microblaze_0_local_memory { parentCell nameHier } {
   connect_bd_intf_net -intf_net axi_uartlite_0_UART [get_bd_intf_ports rs232_uart] [get_bd_intf_pins axi_uartlite_0/UART]
   connect_bd_intf_net -intf_net ddr4_0_C0_DDR4 [get_bd_intf_ports ddr4_sdram_c1] [get_bd_intf_pins ddr4_0/C0_DDR4]
   connect_bd_intf_net -intf_net default_250mhz_clk1_1 [get_bd_intf_ports default_250mhz_clk1] [get_bd_intf_pins ddr4_0/C0_SYS_CLK]
-  connect_bd_intf_net -intf_net microblaze_0_M0_AXIS [get_bd_intf_pins dummy_net_dram_0/from_mb_V] [get_bd_intf_pins microblaze_0/M0_AXIS]
   connect_bd_intf_net -intf_net microblaze_0_M_AXI_DC [get_bd_intf_pins axi_smc/S00_AXI] [get_bd_intf_pins microblaze_0/M_AXI_DC]
   connect_bd_intf_net -intf_net microblaze_0_M_AXI_IC [get_bd_intf_pins axi_smc/S01_AXI] [get_bd_intf_pins microblaze_0/M_AXI_IC]
   connect_bd_intf_net -intf_net microblaze_0_axi_dp [get_bd_intf_pins microblaze_0/M_AXI_DP] [get_bd_intf_pins microblaze_0_axi_periph/S00_AXI]
@@ -331,17 +326,13 @@ proc create_hier_cell_microblaze_0_local_memory { parentCell nameHier } {
   # Create port connections
   connect_bd_net -net ddr4_0_c0_ddr4_ui_clk [get_bd_pins axi_hwicap_0/icap_clk] [get_bd_pins axi_smc/aclk] [get_bd_pins ddr4_0/c0_ddr4_ui_clk] [get_bd_pins rst_ddr4_0_300M/slowest_sync_clk]
   connect_bd_net -net ddr4_0_c0_ddr4_ui_clk_sync_rst [get_bd_pins ddr4_0/c0_ddr4_ui_clk_sync_rst] [get_bd_pins rst_ddr4_0_300M/ext_reset_in]
-  connect_bd_net -net dummy_net_dram_0_to_pr [get_bd_ports to_pr_0] [get_bd_pins dummy_net_dram_0/to_pr] [get_bd_pins ila_0/probe0]
-  connect_bd_net -net from_pr_0_1 [get_bd_ports from_pr_0] [get_bd_pins dummy_net_dram_0/from_pr] [get_bd_pins ila_0/probe1]
   connect_bd_net -net mdm_1_debug_sys_rst [get_bd_pins mdm_1/Debug_SYS_Rst] [get_bd_pins rst_ddr4_0_100M/mb_debug_sys_rst]
-  connect_bd_net -net microblaze_0_Clk [get_bd_ports clk_100] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_hwicap_0/s_axi_aclk] [get_bd_pins axi_smc/aclk1] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins ddr4_0/addn_ui_clkout1] [get_bd_pins dummy_net_dram_0/ap_clk] [get_bd_pins ila_0/clk] [get_bd_pins microblaze_0/Clk] [get_bd_pins microblaze_0_axi_intc/processor_clk] [get_bd_pins microblaze_0_axi_intc/s_axi_aclk] [get_bd_pins microblaze_0_axi_periph/ACLK] [get_bd_pins microblaze_0_axi_periph/M00_ACLK] [get_bd_pins microblaze_0_axi_periph/M01_ACLK] [get_bd_pins microblaze_0_axi_periph/M02_ACLK] [get_bd_pins microblaze_0_axi_periph/M03_ACLK] [get_bd_pins microblaze_0_axi_periph/S00_ACLK] [get_bd_pins microblaze_0_local_memory/LMB_Clk] [get_bd_pins rst_ddr4_0_100M/slowest_sync_clk]
   connect_bd_net -net microblaze_0_intr [get_bd_pins microblaze_0_axi_intc/intr] [get_bd_pins microblaze_0_xlconcat/dout]
   connect_bd_net -net reset_1 [get_bd_ports reset] [get_bd_pins ddr4_0/sys_rst] [get_bd_pins rst_ddr4_0_100M/ext_reset_in]
   connect_bd_net -net rst_ddr4_0_100M_bus_struct_reset [get_bd_pins microblaze_0_local_memory/SYS_Rst] [get_bd_pins rst_ddr4_0_100M/bus_struct_reset]
   connect_bd_net -net rst_ddr4_0_100M_mb_reset [get_bd_pins microblaze_0/Reset] [get_bd_pins microblaze_0_axi_intc/processor_rst] [get_bd_pins rst_ddr4_0_100M/mb_reset] [get_bd_pins util_vector_logic_0/Op1]
   connect_bd_net -net rst_ddr4_0_100M_peripheral_aresetn [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_hwicap_0/s_axi_aresetn] [get_bd_pins axi_smc/aresetn] [get_bd_pins axi_uartlite_0/s_axi_aresetn] [get_bd_pins microblaze_0_axi_intc/s_axi_aresetn] [get_bd_pins microblaze_0_axi_periph/ARESETN] [get_bd_pins microblaze_0_axi_periph/M00_ARESETN] [get_bd_pins microblaze_0_axi_periph/M01_ARESETN] [get_bd_pins microblaze_0_axi_periph/M02_ARESETN] [get_bd_pins microblaze_0_axi_periph/M03_ARESETN] [get_bd_pins microblaze_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ddr4_0_100M/peripheral_aresetn]
   connect_bd_net -net rst_ddr4_0_300M_peripheral_aresetn [get_bd_pins ddr4_0/c0_ddr4_aresetn] [get_bd_pins rst_ddr4_0_300M/peripheral_aresetn]
-  connect_bd_net -net util_vector_logic_0_Res [get_bd_pins dummy_net_dram_0/ap_rst_n] [get_bd_pins util_vector_logic_0/Res]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins microblaze_0_xlconcat/In0] [get_bd_pins microblaze_0_xlconcat/In1] [get_bd_pins xlconstant_0/dout]
 
   # Create address segments
@@ -358,7 +349,7 @@ proc create_hier_cell_microblaze_0_local_memory { parentCell nameHier } {
   # Restore current instance
   current_bd_instance $oldCurInst
 
-  validate_bd_design
+  #validate_bd_design
   save_bd_design
   close_bd_design $design_name 
 }
