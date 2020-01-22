@@ -1,6 +1,6 @@
 # Vivado Partial Reconfiguration Script Template
 
-Copyright (c) 2020. Yizhou Shan. All rights reserved.
+Copyright (c) 2020. Yizhou Shan.
 
 TL;DR: A building script framework for partial reconfiguration projects.
 
@@ -49,6 +49,9 @@ Steps are simple. Everything:
     - Then open another minicom terminal.
       Run `cat pr_bitstream.bit > /dev/ttyUSB1`
     - You should see a msg from minicom when it finished.
+
+The MicroBlaze blocks design looks like this. A full PDF file is [here](assets/config_mb.pdf).
+![image-mb](assets/config_mb.png)
 
 ## Run
 
